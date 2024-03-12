@@ -2,14 +2,7 @@
 {
     public enum Movement
     {
-        /// <summary>
-        /// move
-        /// </summary>
-        M,
-
-        /// <summary>
-        /// rotate
-        /// </summary>
-        R,
+        Move,
+        Rotate,
     }
 }

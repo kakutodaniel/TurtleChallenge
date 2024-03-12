@@ -1,5 +1,5 @@
 ﻿using TurtleChallenge.App.Domain;
-using TurtleChallenge.App.Enums;
+using TurtleChallenge.App.Helpers;
 
 namespace TurtleChallenge.App.Parsers
 {
@@ -10,49 +10,46 @@ namespace TurtleChallenge.App.Parsers
             var settingItems = settings.Split(';');
             var boardSize = settingItems[0].Split('x');
             var startingPoint = settingItems[1].Split(',');
-            _ = Enum.TryParse<Direction>(settingItems[2], true, out var direction);
+            var direction = settingItems[2].ToDirectionEnum();
             var exitPoint = settingItems[3].Split(',');
-            var minesHashSet = settingItems[4].Split('|').ToHashSet();
 
-            if (!int.TryParse(boardSize[0], out var boardSizeAxisX))
-            {
-                throw new ArgumentException("Invalid board size");
-            }
+            var minesPosition = CreateMinesPosition(settingItems[4]);
 
-            if (!int.TryParse(boardSize[1], out var boardSizeAxisY))
-            {
-                throw new ArgumentException("Invalid board size");
-            }
+            var boardSizeAxisX = boardSize[0].ToInt("boardSizeAxisX");
+            var boardSizeAxisY = boardSize[1].ToInt("boardSizeAxisY");
+            var startingPointAxisX = startingPoint[0].ToInt("startingPointAxisX");
+            var startingPointAxisY = startingPoint[1].ToInt("startingPointAxisY");
+            var exitPointAxisX = exitPoint[0].ToInt("exitPointAxisX");
+            var exitPointAxisY = exitPoint[1].ToInt("exitPointAxisY");
 
-            if (!int.TryParse(startingPoint[0], out var startingPointAxisX))
-            {
-                throw new ArgumentException("Invalid starting point");
-            }
-
-            if (!int.TryParse(startingPoint[1], out var startingPointAxisY))
-            {
-                throw new ArgumentException("Invalid starting point");
-            }
-
-            if (!int.TryParse(exitPoint[0], out var exitPointAxisX))
-            {
-                throw new ArgumentException("Invalid exit point");
-            }
-
-            if (!int.TryParse(exitPoint[1], out var exitPointAxisY))
-            {
-                throw new ArgumentException("Invalid exit point");
-            }
+            var boardPosition = new Position(boardSizeAxisX, boardSizeAxisY);
+            var startPointPosition = new Position(startingPointAxisX, startingPointAxisY);
+            var exitPointPosition = new Position(exitPointAxisX, exitPointAxisY);
 
             return new Settings(
-                boardSizeAxisX,
-                boardSizeAxisY,
-                startingPointAxisX,
-                startingPointAxisY,
+                boardPosition,
+                startPointPosition,
+                exitPointPosition,
                 direction,
-                exitPointAxisX,
-                exitPointAxisY,
-                minesHashSet);
+                minesPosition);
+        }
+
+        private static IEnumerable<Position> CreateMinesPosition(string minesString)
+        {
+            var minesCollection = minesString.Split('|');
+            var lstResult = new List<Position>();
+
+            foreach (var item in minesCollection)
+            {
+                var mine = item.Split(',');
+
+                var mineAxisX = mine[0].ToInt("mineAxisX");
+                var mineAxisY = mine[1].ToInt("mineAxisY");
+
+                lstResult.Add(new Position(mineAxisX, mineAxisY));
+            }
+
+            return lstResult;
         }
     }
 }

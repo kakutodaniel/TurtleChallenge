@@ -24,12 +24,16 @@ if (File.Exists(movesFile))
     movesDomain = MovesParser.Parse(moveSequences);
 }
 
-var turtle = new Turtle(settingsDomain);
+var turtleGame = new TurtleGame(settingsDomain);
 
 for (int i = 0; i < movesDomain.Movements.Count; i++)
 {
     var sequenceText = $"Sequence {i + 1}:";
-    var result = turtle.Run(movesDomain.Movements[i]);
+    var initialDirection = settingsDomain.InitialDirection;
+    var startPointPosition = new Position(settingsDomain.StartPointPosition.AxisX, settingsDomain.StartPointPosition.AxisY);
+
+    var turtle = new Turtle(initialDirection, startPointPosition);
+    var result = turtleGame.Run(turtle, movesDomain.Movements[i]);
 
     switch (result)
     {

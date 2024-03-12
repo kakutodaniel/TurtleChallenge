@@ -1,5 +1,6 @@
 ﻿using TurtleChallenge.App.Domain;
 using TurtleChallenge.App.Enums;
+using TurtleChallenge.App.Helpers;
 
 namespace TurtleChallenge.App.Parsers
 {
@@ -16,12 +17,8 @@ namespace TurtleChallenge.App.Parsers
 
                 foreach (var move in moves)
                 {
-                    if (!Enum.TryParse<Movement>(move, true, out var result))
-                    {
-                        throw new ArgumentException("Invalid movement");
-                    }
-
-                    resultMovesItem.Add(result);
+                    var movement = move.ToMovementEnum();
+                    resultMovesItem.Add(movement);
                 }
 
                 resultMoves.Add(resultMovesItem);
