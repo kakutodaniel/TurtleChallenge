@@ -4,6 +4,11 @@ using System.Collections.Concurrent;
 
 var settingsFile = args[0];
 var movesFile = args[1];
+
+string boardSizeKey = "boardSize", startingPointKey = "startingPoint",
+        initialDirectionKey = "initialDirection", exitPointKey = "exitPoint",
+        minesKey = "mines";
+
 var settingsDicionary = new ConcurrentDictionary<string, string>();
 
 if (File.Exists(settingsFile))
@@ -21,11 +26,11 @@ void ReadSettingsFile(string settingsFile)
     var settings = File.ReadAllText(settingsFile);
     var settingItems = settings.Split(';');
 
-    settingsDicionary.TryAdd("boardSize", settingItems[0]);
-    settingsDicionary.TryAdd("startingPoint", settingItems[1]);
-    settingsDicionary.TryAdd("initialDirection", settingItems[2]);
-    settingsDicionary.TryAdd("exitPoint", settingItems[3]);
-    settingsDicionary.TryAdd("mines", settingItems[4]);
+    settingsDicionary.TryAdd(boardSizeKey, settingItems[0]);
+    settingsDicionary.TryAdd(startingPointKey, settingItems[1]);
+    settingsDicionary.TryAdd(initialDirectionKey, settingItems[2]);
+    settingsDicionary.TryAdd(exitPointKey, settingItems[3]);
+    settingsDicionary.TryAdd(minesKey, settingItems[4]);
 }
 
 void ReadMovesFile(string movesFile)
@@ -37,17 +42,17 @@ void ReadMovesFile(string movesFile)
         new ParallelOptions { MaxDegreeOfParallelism = 3 },
         item =>
         {
-            settingsDicionary.TryGetValue("boardSize", out var boardSize);
-            settingsDicionary.TryGetValue("startingPoint", out var startingPoint);
-            settingsDicionary.TryGetValue("initialDirection", out var direction);
-            settingsDicionary.TryGetValue("exitPoint", out var exitPoint);
-            settingsDicionary.TryGetValue("mines", out var mines);
+            settingsDicionary.TryGetValue(boardSizeKey, out var boardSize);
+            settingsDicionary.TryGetValue(startingPointKey, out var startingPoint);
+            settingsDicionary.TryGetValue(initialDirectionKey, out var direction);
+            settingsDicionary.TryGetValue(exitPointKey, out var exitPoint);
+            settingsDicionary.TryGetValue(minesKey, out var mines);
 
             var minesCollection = mines?.Split('|').ToHashSet();
             bool reachExitTile = false, endState = false;
 
-            _ = int.TryParse(boardSize?.Split('X')[0], out var boardSizeAxisX);
-            _ = int.TryParse(boardSize?.Split('X')[1], out var boardSizeAxisY);
+            _ = int.TryParse(boardSize?.Split('x')[0], out var boardSizeAxisX);
+            _ = int.TryParse(boardSize?.Split('x')[1], out var boardSizeAxisY);
 
             _ = int.TryParse(startingPoint?.Split(',')[0], out var startPointAxisX);
             _ = int.TryParse(startingPoint?.Split(',')[1], out var startPointAxisY);
