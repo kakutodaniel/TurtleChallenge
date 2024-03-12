@@ -41,5 +41,5 @@
 - You may also run by `.exe` or `.dll` file following the steps:
     - Build solution
     - Open `cmd` or `powershell` and go to the directory `..\TurtleChallenge.App\bin\Debug\net6.0`
-    - Running `.exe` file use the command: `TurtleChallenge.App.exe game-settings moves`
-    - Running `.dll` file use the command: `dotnet TurtleChallenge.App.dll game-settings move`
+    - Running `.exe` file using the command: `TurtleChallenge.App.exe game-settings moves`
+    - Running `.dll` file using the command: `dotnet TurtleChallenge.App.dll game-settings move`
