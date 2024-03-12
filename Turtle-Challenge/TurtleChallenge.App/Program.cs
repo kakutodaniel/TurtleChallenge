@@ -26,11 +26,11 @@ if (File.Exists(movesFile))
 
 var turtleGame = new TurtleGame(settingsDomain);
 
-for (int i = 0; i < movesDomain.Movements.Count; i++)
+for (int i = 0; i < movesDomain?.Movements.Count; i++)
 {
     var sequenceText = $"Sequence {i + 1}:";
     var initialDirection = settingsDomain.InitialDirection;
-    var startPointPosition = new Position(settingsDomain.StartPointPosition.AxisX, settingsDomain.StartPointPosition.AxisY);
+    var startPointPosition = new Position(settingsDomain.StartPointPosition);
 
     var turtle = new Turtle(initialDirection, startPointPosition);
     var result = turtleGame.Run(turtle, movesDomain.Movements[i]);

@@ -12,6 +12,16 @@ namespace TurtleChallenge.App.Domain
         {
             Direction = direction;
             Position = position;
+
+            Validate();
+        }
+
+        private void Validate()
+        {
+            if (Position is null)
+            {
+                throw new ArgumentNullException(nameof(Position));
+            }
         }
 
         public void UpdateDirection(Direction newDirection)

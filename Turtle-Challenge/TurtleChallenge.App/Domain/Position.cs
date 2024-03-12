@@ -12,6 +12,11 @@
             AxisY = axisY;
         }
 
+        public Position(Position position)
+            : this(position.AxisX, position.AxisY)
+        {
+        }
+
         public bool Equals(Position? other)
         {
             if (other == null)
@@ -35,6 +40,11 @@
         public void AddAxisY(int val)
         {
             AxisY += val;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(AxisX, AxisY);
         }
     }
 }
