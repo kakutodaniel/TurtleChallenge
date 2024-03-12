@@ -39,8 +39,8 @@ void ReadMovesFile(string movesFile)
     var minesCollection = settingsDictionary[minesKey].Split('|').ToHashSet();
     var exitPoint = settingsDictionary[exitPointKey];
 
-    _ = int.TryParse(boardSize.Split('X')[0], out var boardSizeAxisX);
-    _ = int.TryParse(boardSize.Split('X')[1], out var boardSizeAxisY);
+    _ = int.TryParse(boardSize.Split('x')[0], out var boardSizeAxisX);
+    _ = int.TryParse(boardSize.Split('x')[1], out var boardSizeAxisY);
 
     for (int i = 0; i < moveSequences.Count(); i++)
     {
