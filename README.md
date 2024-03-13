@@ -20,10 +20,10 @@
         - `4`: mines - The mines are defined as a list of tiles (x,y). They are delimited by `|`: `0,2|2,0|2,2|4,3|4,0`
 
 - `moves`
-    - example: 
-    `m,r,m,r,m,m,m,r,r,r,m,m,r,r,r,m,r,m,m` -- sequence 1
-    `m,r,m,r,m,r,r,r,m,m,m,r,m,r,r,r,m` -- sequence 2
-    `m,r,m,r,m,m,m,r,m,r,m` -- sequence 3
+    - example:
+    `m,r,m,r,m,m,m,r,r,r,m,m,r,r,r,m,r,m,m`
+    `m,r,m,r,m,r,r,r,m,m,m,r,m,r,r,r,m`
+    `m,r,m,r,m,m,m,r,m,r,m`
     - delimiter: `,`
     - Turtle actions can be either a move (`m`) one tile forward or rotate (`r`) 90 degrees to the right.
     - The file can handle one or more sequences of moves. Each line is a sequence.
@@ -33,7 +33,7 @@
     - `Success!`: Turtle's reached the exit successfully
     - `Mine hit!`: Turtle's reached a mine
     - `Moved off the board!`: Turtle's moved off the board
-    - `Still in danger! Moves ran out!`: No more moves to make
+    - `Still in danger!`: No more moves to make
 
 #### How to run the app
 - At the app root there are both files `game-settings` and `moves` where you may setup according to the instructions above.
