@@ -8,11 +8,16 @@ namespace TurtleChallenge.App.Parsers
         public static Settings Parse(string settings)
         {
             var settingItems = settings.Split(';');
+
+            if (settingItems.Length != 5)
+            {
+                throw new ArgumentException("Invalid settings", nameof(settingItems));
+            }
+
             var boardSize = settingItems[0].Split('x');
             var startingPoint = settingItems[1].Split(',');
             var direction = settingItems[2].ToDirectionEnum();
             var exitPoint = settingItems[3].Split(',');
-
             var minesPosition = CreateMinesPosition(settingItems[4]);
 
             var boardSizeAxisX = boardSize[0].ToInt("boardSizeAxisX");

@@ -43,7 +43,8 @@ namespace TurtleChallenge.App.Tests.Helpers
             var exception = Assert.Throws<ArgumentException>(() => Converters.ToInt(text, name));
 
             // assert
-            Assert.Equal($"Invalid {name}", exception.Message);
+            Assert.Equal(name, exception.ParamName);
+            Assert.Contains($"Invalid value", exception.Message);
         }
 
         [Fact]

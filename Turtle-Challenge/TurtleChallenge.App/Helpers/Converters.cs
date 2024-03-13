@@ -18,7 +18,7 @@ namespace TurtleChallenge.App.Helpers
         {
             if (!int.TryParse(text, out var @value))
             {
-                throw new ArgumentException($"Invalid {name}");
+                throw new ArgumentException("Invalid value", name);
             }
 
             return @value;
