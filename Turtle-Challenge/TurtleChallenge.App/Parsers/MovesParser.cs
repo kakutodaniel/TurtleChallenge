@@ -4,7 +4,7 @@ using TurtleChallenge.App.Helpers;
 
 namespace TurtleChallenge.App.Parsers
 {
-    public class MovesParser
+    public sealed class MovesParser
     {
         public static Moves Parse(IEnumerable<string> movesSequence)
         {

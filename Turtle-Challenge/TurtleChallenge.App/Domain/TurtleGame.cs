@@ -1,8 +1,9 @@
 ﻿using TurtleChallenge.App.Enums;
+using TurtleChallenge.App.Errors;
 
 namespace TurtleChallenge.App.Domain
 {
-    public class TurtleGame
+    public sealed class TurtleGame
     {
         private readonly Settings Settings;
 
@@ -16,7 +17,7 @@ namespace TurtleChallenge.App.Domain
         {
             if (Settings is null)
             {
-                throw new ArgumentNullException(nameof(Settings), "Settings can not be null");
+                throw new ArgumentNullException(nameof(Settings), AppErrors.CanNotBeNull(nameof(Settings)));
             }
         }
 
@@ -57,22 +58,22 @@ namespace TurtleChallenge.App.Domain
         {
             if (moves is null)
             {
-                throw new ArgumentNullException(nameof(moves), "Moves can not be null");
+                throw new ArgumentNullException(nameof(moves), AppErrors.CanNotBeNull(nameof(moves)));
             }
 
             if (turtle is null)
             {
-                throw new ArgumentNullException(nameof(turtle), "Turtle can not be null");
+                throw new ArgumentNullException(nameof(turtle), AppErrors.CanNotBeNull(nameof(turtle)));
             }
 
             if (turtle.Direction != Settings.InitialDirection)
             {
-                throw new ArgumentException("Invalid initial direction", nameof(turtle.Direction));
+                throw new ArgumentException(AppErrors.InvalidInitialDirection, nameof(turtle.Direction));
             }
 
             if (!turtle.Position.Equals(Settings.StartPointPosition))
             {
-                throw new ArgumentException("Invalid initial position", nameof(turtle.Position));
+                throw new ArgumentException(AppErrors.InvalidInitialPosition, nameof(turtle.Position));
             }
         }
 

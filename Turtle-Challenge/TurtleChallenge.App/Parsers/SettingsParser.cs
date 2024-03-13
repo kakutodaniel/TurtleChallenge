@@ -1,9 +1,10 @@
 ﻿using TurtleChallenge.App.Domain;
+using TurtleChallenge.App.Errors;
 using TurtleChallenge.App.Helpers;
 
 namespace TurtleChallenge.App.Parsers
 {
-    public class SettingsParser
+    public sealed class SettingsParser
     {
         public static Settings Parse(string settings)
         {
@@ -11,7 +12,7 @@ namespace TurtleChallenge.App.Parsers
 
             if (settingItems.Length != 5)
             {
-                throw new ArgumentException("Invalid settings", nameof(settingItems));
+                throw new ArgumentException(AppErrors.InvalidSettings, nameof(settingItems));
             }
 
             var boardSize = settingItems[0].Split('x');

@@ -1,4 +1,5 @@
 ﻿using TurtleChallenge.App.Enums;
+using TurtleChallenge.App.Errors;
 
 namespace TurtleChallenge.App.Helpers
 {
@@ -8,7 +9,7 @@ namespace TurtleChallenge.App.Helpers
         {
             if (!Enum.TryParse<Direction>(text, true, out var direction))
             {
-                throw new ArgumentException("Invalid direction");
+                throw new ArgumentException(AppErrors.InvalidDirection);
             }
 
             return direction;
@@ -18,7 +19,7 @@ namespace TurtleChallenge.App.Helpers
         {
             if (!int.TryParse(text, out var @value))
             {
-                throw new ArgumentException("Invalid value", name);
+                throw new ArgumentException(AppErrors.InvalidValue, name);
             }
 
             return @value;
@@ -34,7 +35,7 @@ namespace TurtleChallenge.App.Helpers
 
             if (!Enum.TryParse<Movement>(moveParsed, true, out var movement))
             {
-                throw new ArgumentException("Invalid movement");
+                throw new ArgumentException(AppErrors.InvalidMovement);
             }
 
             return movement;

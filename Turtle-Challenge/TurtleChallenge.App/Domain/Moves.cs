@@ -2,5 +2,5 @@
 
 namespace TurtleChallenge.App.Domain
 {
-    public record Moves(List<List<Movement>> Movements);
+    public sealed record Moves(List<List<Movement>> Movements);
 }

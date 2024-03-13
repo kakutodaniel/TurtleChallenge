@@ -35,7 +35,7 @@ foreach (var (item, index) in moves?.Movements.Select((item, index) => (item, in
     var turtle = new Turtle(initialDirection, startPointPosition);
     var result = turtleGame.Run(turtle, item);
 
-    var resultTest = result switch
+    var moveResult = result switch
     {
         Result.Success => "Success!",
         Result.MineHit => "Mine hit!",
@@ -44,5 +44,5 @@ foreach (var (item, index) in moves?.Movements.Select((item, index) => (item, in
         _ => "Not implemented result",
     };
 
-    Console.WriteLine($"{sequenceText} {resultTest}");
+    Console.WriteLine($"{sequenceText} {moveResult}");
 }

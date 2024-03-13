@@ -1,9 +1,10 @@
 ﻿using TurtleChallenge.App.Enums;
+using TurtleChallenge.App.Errors;
 using TurtleChallenge.App.Helpers;
 
 namespace TurtleChallenge.App.Domain
 {
-    public class Turtle
+    public sealed class Turtle
     {
         public Direction Direction { get; private set; }
 
@@ -21,7 +22,7 @@ namespace TurtleChallenge.App.Domain
         {
             if (Position is null)
             {
-                throw new ArgumentNullException(nameof(Position), "Position can not be null");
+                throw new ArgumentNullException(nameof(Position), AppErrors.CanNotBeNull(nameof(Position)));
             }
         }
 

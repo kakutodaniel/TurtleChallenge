@@ -1,6 +1,6 @@
 ﻿namespace TurtleChallenge.App.Domain
 {
-    public class Position : IEquatable<Position>
+    public sealed class Position : IEquatable<Position>
     {
         public int AxisX { get; private set; }
 
