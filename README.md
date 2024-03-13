@@ -7,7 +7,8 @@
 
 #### Files Layouts (Inputs)
 - `game-settings`
-    - example: `5x4;0,1;north;4,2;0,2|2,0|2,2|4,3|4,0`
+    - example:
+    ![alt text](image-4.png)
     - delimiter: `;`
     - positions (indexes), examples and meanings:
         - `0`: board size - The board is a square of n by m number of tiles: `5x4`
@@ -21,9 +22,7 @@
 
 - `moves`
     - example:
-    `m,r,m,r,m,m,m,r,r,r,m,m,r,r,r,m,r,m,m`
-    `m,r,m,r,m,r,r,r,m,m,m,r,m,r,r,r,m`
-    `m,r,m,r,m,m,m,r,m,r,m`
+    ![alt text](image-3.png)
     - delimiter: `,`
     - Turtle actions can be either a move (`m`) one tile forward or rotate (`r`) 90 degrees to the right.
     - The file can handle one or more sequences of moves. Each line is a sequence.
