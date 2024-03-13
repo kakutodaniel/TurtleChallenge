@@ -12,7 +12,7 @@ namespace TurtleChallenge.App.Parsers
 
             if (settingItems.Length != 5)
             {
-                throw new ArgumentException(AppErrors.InvalidSettings, nameof(settingItems));
+                throw new ArgumentException(AppErrors.InvalidSettings, nameof(settings));
             }
 
             var boardSize = settingItems[0].Split('x');

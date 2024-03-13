@@ -23,5 +23,10 @@ namespace TurtleChallenge.App.Tests.Builders
         {
             return new Position(_axisX, _axisY);
         }
+
+        public Position Create(Position position)
+        {
+            return new Position(position);
+        }
     }
 }

@@ -103,5 +103,21 @@ namespace TurtleChallenge.App.Tests.Domain
             // assert
             Assert.False(result);
         }
+
+        [Fact]
+        public void Constructor_GivenPositionAndCreateNewOne_ReturnsNewPositionSuccessfully()
+        {
+            // arrange
+            var position = new PositionBuilder()
+                            .WithAxisX(1)
+                            .WithAxisY(2)
+                            .Create();
+
+            // act
+            var newPosition = new PositionBuilder().Create(position);
+
+            // arrange
+            Assert.True(position != newPosition);
+        }
     }
 }
