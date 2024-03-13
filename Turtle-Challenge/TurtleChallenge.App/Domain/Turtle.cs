@@ -28,7 +28,7 @@ namespace TurtleChallenge.App.Domain
 
         public void Turn()
         {
-            Direction = Direction.Next();
+            Direction = Direction.Turn();
         }
 
         public void Move()

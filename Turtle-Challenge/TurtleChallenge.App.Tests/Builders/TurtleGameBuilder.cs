@@ -16,6 +16,5 @@ namespace TurtleChallenge.App.Tests.Builders
         {
             return new TurtleGame(_settings);
         }
-
     }
 }

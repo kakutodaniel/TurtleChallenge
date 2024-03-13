@@ -41,7 +41,7 @@ namespace TurtleChallenge.App.Helpers
             return movement;
         }
 
-        public static Direction Next(this Direction direction)
+        public static Direction Turn(this Direction direction)
         {
             return direction switch
             {

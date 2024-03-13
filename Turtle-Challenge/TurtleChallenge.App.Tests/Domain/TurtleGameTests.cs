@@ -18,7 +18,47 @@ namespace TurtleChallenge.App.Tests.Domain
         }
 
         [Fact]
-        public void Run_WhenTurtleDirectionNotEqualsInitialDirection_ThrowsException()
+        public void Run_WhenMovesIsNull_ThrowsException()
+        {
+            // arrange
+            var position = new PositionBuilder()
+                .WithAxisX(0)
+                .WithAxisY(0)
+                .Create();
+            var turtle = new TurtleBuilder()
+                .WithDirection(Enums.Direction.South)
+                .WithPosition(position)
+                .Create();
+            
+            var settings = BuildSettings();
+            var turtleGame = new TurtleGame(settings);
+
+            // act
+            var exception = Assert.Throws<ArgumentNullException>(() => turtleGame.Run(turtle, null));
+
+            // arrange
+            Assert.Equal("Moves", exception.ParamName, ignoreCase: true);
+            Assert.Contains("can not be null", exception.Message);
+        }
+
+        [Fact]
+        public void Run_WhenTurtleIsNull_ThrowsException()
+        {
+            // arrange
+            var movements = new List<Movement>();
+            var settings = BuildSettings();
+            var turtleGame = new TurtleGame(settings);
+
+            // act
+            var exception = Assert.Throws<ArgumentNullException>(() => turtleGame.Run(null, movements));
+
+            // arrange
+            Assert.Equal("Turtle", exception.ParamName, ignoreCase: true);
+            Assert.Contains("can not be null", exception.Message);
+        }
+
+        [Fact]
+        public void Run_WhenTurtleDirectionNotEqualsSettingsInitialDirection_ThrowsException()
         {
             // arrange
             var position = new PositionBuilder()
@@ -41,7 +81,31 @@ namespace TurtleChallenge.App.Tests.Domain
             Assert.Contains("Invalid initial direction", exception.Message);
         }
 
-        private Settings BuildSettings()
+        [Fact]
+        public void Run_WhenTurtleStartPositionNotEqualsSettingsStartPosition_ThrowsException()
+        {
+            // arrange
+            var position = new PositionBuilder()
+                .WithAxisX(0)
+                .WithAxisY(0)
+                .Create();
+            var turtle = new TurtleBuilder()
+                .WithDirection(Enums.Direction.North)
+                .WithPosition(position)
+                .Create();
+            var movements = new List<Movement>();
+            var settings = BuildSettings();
+            var turtleGame = new TurtleGame(settings);
+
+            // act
+            var exception = Assert.Throws<ArgumentException>(() => turtleGame.Run(turtle, movements));
+
+            // arrange
+            Assert.Equal("Position", exception.ParamName);
+            Assert.Contains("Invalid initial position", exception.Message);
+        }
+
+        private Settings BuildSettings(Direction initialDirection = Direction.North)
         {
             var boardPosition = new PositionBuilder()
                        .WithAxisX(5)
@@ -71,7 +135,7 @@ namespace TurtleChallenge.App.Tests.Domain
                                .WithBoardPosition(boardPosition)
                                .WithStartPointPosition(startPosition)
                                .WithExitPointPosition(exitPosition)
-                               .With(Enums.Direction.North)
+                               .With(initialDirection)
                                .With(minesPosition)
                                .Create();
         }

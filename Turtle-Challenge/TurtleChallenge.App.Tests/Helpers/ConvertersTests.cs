@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TurtleChallenge.App.Enums;
+﻿using TurtleChallenge.App.Enums;
 using TurtleChallenge.App.Helpers;
 
 namespace TurtleChallenge.App.Tests.Helpers
@@ -90,10 +85,10 @@ namespace TurtleChallenge.App.Tests.Helpers
         [InlineData(Direction.East, Direction.South)]
         [InlineData(Direction.South, Direction.West)]
         [InlineData(Direction.West, Direction.North)]
-        public void Next_GivenDirection_ReturnsNextDirection(Direction direction, Direction expected)
+        public void Turn_GivenDirection_ReturnsNextDirection(Direction direction, Direction expected)
         {
             // arrange & act
-            var result = direction.Next();
+            var result = direction.Turn();
 
             // assert
             Assert.Equal(expected, result);
