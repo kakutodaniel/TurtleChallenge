@@ -22,7 +22,7 @@ namespace TurtleChallenge.App.Domain
 
         public Result Run(Turtle turtle, List<Movement> moves)
         {
-            ValidateRun(turtle);
+            ValidateRun(turtle, moves);
 
             foreach (var move in moves)
             {
@@ -53,8 +53,18 @@ namespace TurtleChallenge.App.Domain
             return Result.MovesRanOut;
         }
 
-        private void ValidateRun(Turtle turtle)
+        private void ValidateRun(Turtle turtle, List<Movement> moves)
         {
+            if (moves is null)
+            {
+                throw new ArgumentNullException(nameof(moves), "Moves can not be null");
+            }
+
+            if (turtle is null)
+            {
+                throw new ArgumentNullException(nameof(turtle), "Turtle can not be null");
+            }
+
             if (turtle.Direction != Settings.InitialDirection)
             {
                 throw new ArgumentException("Invalid initial direction", nameof(turtle.Direction));

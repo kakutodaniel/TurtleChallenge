@@ -26,31 +26,23 @@ if (File.Exists(movesFile))
 
 var turtleGame = new TurtleGame(settings);
 
-for (int i = 0; i < moves?.Movements.Count; i++)
+foreach (var (item, index) in moves?.Movements.Select((item, index) => (item, index)))
 {
-    var sequenceText = $"Sequence {i + 1}:";
+    var sequenceText = $"Sequence {index + 1}:";
     var initialDirection = settings.InitialDirection;
     var startPointPosition = new Position(settings.StartPointPosition);
 
     var turtle = new Turtle(initialDirection, startPointPosition);
-    var result = turtleGame.Run(turtle, moves.Movements[i]);
+    var result = turtleGame.Run(turtle, item);
 
-    switch (result)
+    var resultTest = result switch
     {
-        case Result.Success:
-            Console.WriteLine($"{sequenceText} Success!");
-            break;
-        case Result.MineHit:
-            Console.WriteLine($"{sequenceText} Mine hit!");
-            break;
-        case Result.MovedOffBoard:
-            Console.WriteLine($"{sequenceText} Moved off the board!");
-            break;
-        case Result.MovesRanOut:
-            Console.WriteLine($"{sequenceText} Still in danger!");
-            break;
-        default:
-            Console.WriteLine($"{sequenceText} Not implemented result");
-            break;
-    }
+        Result.Success => "Success!",
+        Result.MineHit => "Mine hit!",
+        Result.MovedOffBoard => "Moved off the board!",
+        Result.MovesRanOut => "Still in danger!",
+        _ => "Not implemented result",
+    };
+
+    Console.WriteLine($"{sequenceText} {resultTest}");
 }
