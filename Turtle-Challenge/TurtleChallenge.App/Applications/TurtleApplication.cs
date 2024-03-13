@@ -1,47 +1,40 @@
-﻿using TurtleChallenge.App.Domain;
+﻿using TurtleChallenge.App.Applications.Interfaces;
+using TurtleChallenge.App.Domain;
 using TurtleChallenge.App.Enums;
 using TurtleChallenge.App.Helpers.Interfaces;
 using TurtleChallenge.App.Parsers;
 
 namespace TurtleChallenge.App.Applications
 {
-    public sealed class TurtleApplication
+    public sealed class TurtleApplication : ITurtleApplication
     {
-        private readonly string _settingsFile;
-
-        private readonly string _movesFile;
-
         private readonly IFileWrapper _fileWrapper;
-
         private readonly IConsoleWrapper _consoleWrapper;
 
         public TurtleApplication(
-            string settingsFile,
-            string movesFile,
             IFileWrapper fileWrapper,
             IConsoleWrapper consoleWrapper)
         {
-            _settingsFile = settingsFile;
-            _movesFile = movesFile;
             _fileWrapper = fileWrapper;
             _consoleWrapper = consoleWrapper;
         }
 
-        public void Run()
+        public async Task RunAsync(string settingsFile, string movesFile)
         {
             Settings settings = null;
             Moves moves = null;
 
-            if (_fileWrapper.Exists(_settingsFile))
+            if (_fileWrapper.Exists(settingsFile))
             {
-                var settingsLine = _fileWrapper.ReadAllText(_settingsFile);
+                var settingsLine = await _fileWrapper.ReadAllTextAsync(settingsFile);
 
                 settings = SettingsParser.Parse(settingsLine);
             }
 
-            if (_fileWrapper.Exists(_movesFile))
+            if (_fileWrapper.Exists(movesFile))
             {
-                var moveSequences = _fileWrapper.ReadAllLines(_movesFile).Where(x => !string.IsNullOrWhiteSpace(x));
+                var moveSequences = (await _fileWrapper.ReadAllLinesAsync(movesFile))
+                                        .Where(x => !string.IsNullOrWhiteSpace(x));
 
                 moves = MovesParser.Parse(moveSequences);
             }

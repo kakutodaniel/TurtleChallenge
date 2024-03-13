@@ -4,8 +4,8 @@
     {
         bool Exists(string path);
 
-        string ReadAllText(string path);
+        Task<string> ReadAllTextAsync(string path);
 
-        string[] ReadAllLines(string path);
+        Task<string[]> ReadAllLinesAsync(string path);
     }
 }

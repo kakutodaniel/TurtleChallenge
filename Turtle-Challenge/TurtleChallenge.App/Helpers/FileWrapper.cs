@@ -9,14 +9,14 @@ namespace TurtleChallenge.App.Helpers
             return File.Exists(path);
         }
 
-        public string[] ReadAllLines(string path)
+        public Task<string[]> ReadAllLinesAsync(string path)
         {
-            return File.ReadAllLines(path);
+            return File.ReadAllLinesAsync(path);
         }
 
-        public string ReadAllText(string path)
+        public Task<string> ReadAllTextAsync(string path)
         {
-            return File.ReadAllText(path);
+            return File.ReadAllTextAsync(path);
         }
     }
 }
