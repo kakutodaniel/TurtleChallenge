@@ -7,7 +7,7 @@
 
 #### Files Layouts (Inputs)
 - `game-settings`
-    - example:
+    - example: <br/>
     ![alt text](image-4.png)
     - delimiter: `;`
     - positions (indexes), examples and meanings:
@@ -21,7 +21,7 @@
         - `4`: mines - The mines are defined as a list of tiles (x,y). They are delimited by `|`: `0,2|2,0|2,2|4,3|4,0`
 
 - `moves`
-    - example:
+    - example: <br/>
     ![alt text](image-3.png)
     - delimiter: `,`
     - Turtle actions can be either a move (`m`) one tile forward or rotate (`r`) 90 degrees to the right.
