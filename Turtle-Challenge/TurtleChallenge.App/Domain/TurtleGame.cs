@@ -68,12 +68,12 @@ namespace TurtleChallenge.App.Domain
 
             if (turtle.Direction != Settings.InitialDirection)
             {
-                throw new ArgumentException(AppErrors.InvalidInitialDirection, nameof(turtle.Direction));
+                throw new ArgumentException(AppErrors.InvalidInitialDirection, nameof(turtle));
             }
 
             if (!turtle.Position.Equals(Settings.StartPointPosition))
             {
-                throw new ArgumentException(AppErrors.InvalidInitialPosition, nameof(turtle.Position));
+                throw new ArgumentException(AppErrors.InvalidInitialPosition, nameof(turtle));
             }
         }
 

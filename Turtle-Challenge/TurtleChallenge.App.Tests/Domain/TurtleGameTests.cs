@@ -18,7 +18,7 @@ namespace TurtleChallenge.App.Tests.Domain
         }
 
         [Fact]
-        public void Run_WhenMovesIsNull_ThrowsException()
+        public void Run_GivenMovesEqualsNull_ThrowsException()
         {
             // arrange
             var position = new PositionBuilder()
@@ -26,10 +26,10 @@ namespace TurtleChallenge.App.Tests.Domain
                 .WithAxisY(0)
                 .Create();
             var turtle = new TurtleBuilder()
-                .WithDirection(Enums.Direction.South)
+                .WithDirection(Direction.South)
                 .WithPosition(position)
                 .Create();
-            
+
             var settings = BuildSettings();
             var turtleGame = new TurtleGame(settings);
 
@@ -42,7 +42,7 @@ namespace TurtleChallenge.App.Tests.Domain
         }
 
         [Fact]
-        public void Run_WhenTurtleIsNull_ThrowsException()
+        public void Run_GivenTurtleEqualsNull_ThrowsException()
         {
             // arrange
             var movements = new List<Movement>();
@@ -58,7 +58,7 @@ namespace TurtleChallenge.App.Tests.Domain
         }
 
         [Fact]
-        public void Run_WhenTurtleDirectionNotEqualsSettingsInitialDirection_ThrowsException()
+        public void Run_GivenTurtleDirectionNotEqualsSettingsInitialDirection_ThrowsException()
         {
             // arrange
             var position = new PositionBuilder()
@@ -66,7 +66,7 @@ namespace TurtleChallenge.App.Tests.Domain
                 .WithAxisY(0)
                 .Create();
             var turtle = new TurtleBuilder()
-                .WithDirection(Enums.Direction.South)
+                .WithDirection(Direction.South)
                 .WithPosition(position)
                 .Create();
             var movements = new List<Movement>();
@@ -77,12 +77,12 @@ namespace TurtleChallenge.App.Tests.Domain
             var exception = Assert.Throws<ArgumentException>(() => turtleGame.Run(turtle, movements));
 
             // arrange
-            Assert.Equal("Direction", exception.ParamName);
+            Assert.Equal("Turtle", exception.ParamName, ignoreCase: true);
             Assert.Contains("Invalid initial direction", exception.Message);
         }
 
         [Fact]
-        public void Run_WhenTurtleStartPositionNotEqualsSettingsStartPosition_ThrowsException()
+        public void Run_GivenTurtleStartPositionNotEqualsSettingsStartPosition_ThrowsException()
         {
             // arrange
             var position = new PositionBuilder()
@@ -90,7 +90,7 @@ namespace TurtleChallenge.App.Tests.Domain
                 .WithAxisY(0)
                 .Create();
             var turtle = new TurtleBuilder()
-                .WithDirection(Enums.Direction.North)
+                .WithDirection(Direction.North)
                 .WithPosition(position)
                 .Create();
             var movements = new List<Movement>();
@@ -101,30 +101,242 @@ namespace TurtleChallenge.App.Tests.Domain
             var exception = Assert.Throws<ArgumentException>(() => turtleGame.Run(turtle, movements));
 
             // arrange
-            Assert.Equal("Position", exception.ParamName);
+            Assert.Equal("Turtle", exception.ParamName, ignoreCase: true);
             Assert.Contains("Invalid initial position", exception.Message);
         }
 
-        private Settings BuildSettings(Direction initialDirection = Direction.North)
+        [Fact]
+        public void Run_GivenTurtleAndMovementsWithRotates_ReturnsMovesRanOutSuccessfully()
         {
-            var boardPosition = new PositionBuilder()
-                       .WithAxisX(5)
-                       .WithAxisY(4)
-                       .Create();
+            // arrange
+            var position = new PositionBuilder()
+                .WithAxisX(0)
+                .WithAxisY(1)
+                .Create();
+            var turtle = new TurtleBuilder()
+                .WithDirection(Direction.North)
+                .WithPosition(position)
+                .Create();
+            var movements = new List<Movement> { Movement.Rotate, Movement.Rotate };
+            var settings = BuildSettings();
+            var turtleGame = new TurtleGame(settings);
 
-            var startPosition = new PositionBuilder()
+            // act
+            var result = turtleGame.Run(turtle, movements);
+
+            // arrange
+            Assert.Equal(Result.MovesRanOut, result);
+            Assert.Equal(Direction.South, turtle.Direction);
+        }
+
+        [Fact]
+        public void Run_GivenTurtleAndMovementsWithRotatesAndMoves_WhenReachedExit_ReturnsSuccessfully()
+        {
+            // arrange
+            var position = new PositionBuilder()
+                .WithAxisX(0)
+                .WithAxisY(1)
+                .Create();
+            var turtle = new TurtleBuilder()
+                .WithDirection(Direction.North)
+                .WithPosition(position)
+                .Create();
+            var movements = new List<Movement>
+            {
+                Movement.Rotate,
+                Movement.Move,
+                Movement.Move,
+                Movement.Move,
+                Movement.Move,
+                Movement.Rotate,
+                Movement.Move,
+            };
+            var settings = BuildSettings();
+            var turtleGame = new TurtleGame(settings);
+
+            // act
+            var result = turtleGame.Run(turtle, movements);
+
+            // arrange
+            Assert.Equal(Result.Success, result);
+            Assert.Equal(Direction.South, turtle.Direction);
+        }
+
+        [Fact]
+        public void Run_GivenTurtleAndMovementsWithRotatesAndMoves_WhenHitMine_ReturnsMineHitSuccessfully()
+        {
+            // arrange
+            var position = new PositionBuilder()
+                .WithAxisX(0)
+                .WithAxisY(1)
+                .Create();
+            var turtle = new TurtleBuilder()
+                .WithDirection(Direction.North)
+                .WithPosition(position)
+                .Create();
+            var movements = new List<Movement>
+            {
+                Movement.Move,
+                Movement.Rotate,
+                Movement.Move,
+                Movement.Move,
+            };
+            var settings = BuildSettings();
+            var turtleGame = new TurtleGame(settings);
+
+            // act
+            var result = turtleGame.Run(turtle, movements);
+
+            // arrange
+            Assert.Equal(Result.MineHit, result);
+            Assert.Equal(Direction.East, turtle.Direction);
+        }
+
+        [Fact]
+        public void Run_GivenTurtleAndMovementsWithRotatesAndMoves_WhenPositionAxisYNegative_ReturnsMovedOffSuccessfully()
+        {
+            // arrange
+            var position = new PositionBuilder()
+                .WithAxisX(0)
+                .WithAxisY(1)
+                .Create();
+            var turtle = new TurtleBuilder()
+                .WithDirection(Direction.North)
+                .WithPosition(position)
+                .Create();
+            var movements = new List<Movement>
+            {
+                Movement.Move,
+                Movement.Move,
+            };
+            var settings = BuildSettings();
+            var turtleGame = new TurtleGame(settings);
+
+            // act
+            var result = turtleGame.Run(turtle, movements);
+
+            // arrange
+            Assert.Equal(Result.MovedOffBoard, result);
+            Assert.Equal(Direction.North, turtle.Direction);
+        }
+
+        [Fact]
+        public void Run_GivenTurtleAndMovementsWithRotatesAndMoves_WhenPositionAxisXNegative_ReturnsMovedOffSuccessfully()
+        {
+            // arrange
+            var position = new PositionBuilder()
+                .WithAxisX(0)
+                .WithAxisY(1)
+                .Create();
+            var turtle = new TurtleBuilder()
+                .WithDirection(Direction.North)
+                .WithPosition(position)
+                .Create();
+            var movements = new List<Movement>
+            {
+                Movement.Rotate,
+                Movement.Rotate,
+                Movement.Rotate,
+                Movement.Move,
+            };
+            var settings = BuildSettings();
+            var turtleGame = new TurtleGame(settings);
+
+            // act
+            var result = turtleGame.Run(turtle, movements);
+
+            // arrange
+            Assert.Equal(Result.MovedOffBoard, result);
+            Assert.Equal(Direction.West, turtle.Direction);
+        }
+
+        [Fact]
+        public void Run_GivenTurtleAndMovementsWithRotatesAndMoves_WhenPositionAxisXGreaterThanBoard_ReturnsMovedOffSuccessfully()
+        {
+            // arrange
+            var position = new PositionBuilder()
+                .WithAxisX(0)
+                .WithAxisY(1)
+                .Create();
+            var turtle = new TurtleBuilder()
+                .WithDirection(Direction.North)
+                .WithPosition(position)
+                .Create();
+            var movements = new List<Movement>
+            {
+                Movement.Rotate,
+                Movement.Move,
+                Movement.Move,
+                Movement.Move,
+                Movement.Move,
+                Movement.Move,
+            };
+            var settings = BuildSettings();
+            var turtleGame = new TurtleGame(settings);
+
+            // act
+            var result = turtleGame.Run(turtle, movements);
+
+            // arrange
+            Assert.Equal(Result.MovedOffBoard, result);
+            Assert.Equal(Direction.East, turtle.Direction);
+        }
+
+        [Fact]
+        public void Run_GivenTurtleAndMovementsWithRotatesAndMoves_WhenPositionAxisYGreaterThanBoard_ReturnsMovedOffSuccessfully()
+        {
+            // arrange
+            var position = new PositionBuilder()
+                .WithAxisX(0)
+                .WithAxisY(1)
+                .Create();
+            var turtle = new TurtleBuilder()
+                .WithDirection(Direction.North)
+                .WithPosition(position)
+                .Create();
+            var movements = new List<Movement>
+            {
+                Movement.Rotate,
+                Movement.Rotate,
+                Movement.Move,
+                Movement.Move,
+                Movement.Move,
+            };
+            var settings = BuildSettings();
+            var turtleGame = new TurtleGame(settings);
+
+            // act
+            var result = turtleGame.Run(turtle, movements);
+
+            // arrange
+            Assert.Equal(Result.MovedOffBoard, result);
+            Assert.Equal(Direction.South, turtle.Direction);
+        }
+
+        private Settings BuildSettings(
+            Position boardPosition = null,
+            Position startPosition = null,
+            Position exitPosition = null,
+            Position[] minesPosition = null,
+            Direction initialDirection = Direction.North)
+        {
+            boardPosition ??= new PositionBuilder()
+                                       .WithAxisX(5)
+                                       .WithAxisY(4)
+                                       .Create();
+
+            startPosition ??= new PositionBuilder()
                                 .WithAxisX(0)
                                 .WithAxisY(1)
                                 .Create();
 
-            var exitPosition = new PositionBuilder()
+            exitPosition ??= new PositionBuilder()
                                 .WithAxisX(4)
                                 .WithAxisY(2)
                                 .Create();
 
-            var minesPosition = new[]
+            minesPosition ??= new[]
             {
-                new PositionBuilder().WithAxisX(0).WithAxisY(2).Create(),
                 new PositionBuilder().WithAxisX(2).WithAxisY(0).Create(),
                 new PositionBuilder().WithAxisX(2).WithAxisY(2).Create(),
                 new PositionBuilder().WithAxisX(4).WithAxisY(3).Create(),
