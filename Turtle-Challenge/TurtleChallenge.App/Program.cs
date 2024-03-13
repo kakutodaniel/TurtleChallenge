@@ -7,33 +7,33 @@ using TurtleChallenge.App.Parsers;
 
 var settingsFile = args[0];
 var movesFile = args[1];
-Settings? settingsDomain = default;
-Moves? movesDomain = default;
+Settings? settings = default;
+Moves? moves = default;
 
 if (File.Exists(settingsFile))
 {
-    var settings = File.ReadAllText(settingsFile);
+    var settingsLine = File.ReadAllText(settingsFile);
 
-    settingsDomain = SettingsParser.Parse(settings);
+    settings = SettingsParser.Parse(settingsLine);
 }
 
 if (File.Exists(movesFile))
 {
     var moveSequences = File.ReadAllLines(movesFile).Where(x => !string.IsNullOrWhiteSpace(x));
 
-    movesDomain = MovesParser.Parse(moveSequences);
+    moves = MovesParser.Parse(moveSequences);
 }
 
-var turtleGame = new TurtleGame(settingsDomain);
+var turtleGame = new TurtleGame(settings);
 
-for (int i = 0; i < movesDomain?.Movements.Count; i++)
+for (int i = 0; i < moves?.Movements.Count; i++)
 {
     var sequenceText = $"Sequence {i + 1}:";
-    var initialDirection = settingsDomain.InitialDirection;
-    var startPointPosition = new Position(settingsDomain.StartPointPosition);
+    var initialDirection = settings.InitialDirection;
+    var startPointPosition = new Position(settings.StartPointPosition);
 
     var turtle = new Turtle(initialDirection, startPointPosition);
-    var result = turtleGame.Run(turtle, movesDomain.Movements[i]);
+    var result = turtleGame.Run(turtle, moves.Movements[i]);
 
     switch (result)
     {
@@ -47,7 +47,7 @@ for (int i = 0; i < movesDomain?.Movements.Count; i++)
             Console.WriteLine($"{sequenceText} Moved off the board!");
             break;
         case Result.MovesRanOut:
-            Console.WriteLine($"{sequenceText} Still in danger! Moves ran out!");
+            Console.WriteLine($"{sequenceText} Still in danger!");
             break;
         default:
             Console.WriteLine($"{sequenceText} Not implemented result");

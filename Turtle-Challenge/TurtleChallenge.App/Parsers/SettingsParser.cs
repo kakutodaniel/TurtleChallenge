@@ -34,10 +34,10 @@ namespace TurtleChallenge.App.Parsers
                 minesPosition);
         }
 
-        private static IEnumerable<Position> CreateMinesPosition(string minesString)
+        private static HashSet<Position> CreateMinesPosition(string minesString)
         {
             var minesCollection = minesString.Split('|');
-            var lstResult = new List<Position>();
+            var result = new HashSet<Position>();
 
             foreach (var item in minesCollection)
             {
@@ -46,10 +46,10 @@ namespace TurtleChallenge.App.Parsers
                 var mineAxisX = mine[0].ToInt("mineAxisX");
                 var mineAxisY = mine[1].ToInt("mineAxisY");
 
-                lstResult.Add(new Position(mineAxisX, mineAxisY));
+                result.Add(new Position(mineAxisX, mineAxisY));
             }
 
-            return lstResult;
+            return result;
         }
     }
 }

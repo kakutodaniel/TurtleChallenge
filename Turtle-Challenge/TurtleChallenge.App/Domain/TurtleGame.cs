@@ -1,5 +1,4 @@
 ﻿using TurtleChallenge.App.Enums;
-using TurtleChallenge.App.Helpers;
 
 namespace TurtleChallenge.App.Domain
 {
@@ -17,21 +16,23 @@ namespace TurtleChallenge.App.Domain
         {
             if (Settings is null)
             {
-                throw new ArgumentException("Settings can not be null");
+                throw new ArgumentNullException(nameof(Settings), "Settings can not be null");
             }
         }
 
         public Result Run(Turtle turtle, List<Movement> moves)
         {
+            ValidateRun(turtle);
+
             foreach (var move in moves)
             {
                 if (move == Movement.Rotate)
                 {
-                    UpdateDirection(turtle);
+                    turtle.Turn();
                     continue;
                 }
 
-                UpdateMovement(turtle);
+                turtle.Move();
 
                 if (ReachedExit(turtle))
                 {
@@ -52,28 +53,16 @@ namespace TurtleChallenge.App.Domain
             return Result.MovesRanOut;
         }
 
-        private void UpdateDirection(Turtle turtle)
+        private void ValidateRun(Turtle turtle)
         {
-            var next = turtle.Direction.Next();
-            turtle.UpdateDirection(next);
-        }
-
-        private void UpdateMovement(Turtle turtle)
-        {
-            switch (turtle.Direction)
+            if (turtle.Direction != Settings.InitialDirection)
             {
-                case Direction.North:
-                    turtle.Position.AddAxisY(-1);
-                    break;
-                case Direction.East:
-                    turtle.Position.AddAxisX(1);
-                    break;
-                case Direction.South:
-                    turtle.Position.AddAxisY(1);
-                    break;
-                case Direction.West:
-                    turtle.Position.AddAxisX(-1);
-                    break;
+                throw new ArgumentException("Invalid initial direction", nameof(turtle.Direction));
+            }
+
+            if (!turtle.Position.Equals(Settings.StartPointPosition))
+            {
+                throw new ArgumentException("Invalid initial position", nameof(turtle.Position));
             }
         }
 

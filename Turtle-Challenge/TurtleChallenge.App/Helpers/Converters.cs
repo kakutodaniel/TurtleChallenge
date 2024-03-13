@@ -1,5 +1,4 @@
-﻿using TurtleChallenge.App.Domain;
-using TurtleChallenge.App.Enums;
+﻿using TurtleChallenge.App.Enums;
 
 namespace TurtleChallenge.App.Helpers
 {

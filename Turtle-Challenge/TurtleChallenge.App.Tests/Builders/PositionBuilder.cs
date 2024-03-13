@@ -6,7 +6,6 @@ namespace TurtleChallenge.App.Tests.Builders
     {
         private int _axisX;
         private int _axisY;
-        private Position _position;
 
         public PositionBuilder WithAxisX(int axisX)
         {
@@ -20,20 +19,9 @@ namespace TurtleChallenge.App.Tests.Builders
             return this;
         }
 
-        public PositionBuilder With(Position position)
-        {
-            _position = position;
-            return this;
-        }
-
         public Position Create()
         {
             return new Position(_axisX, _axisY);
-        }
-
-        public Position Clone()
-        {
-            return new Position(_position);
         }
     }
 }
